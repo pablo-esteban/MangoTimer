@@ -10,6 +10,6 @@ def test_should_trigger_alarm_after_set_time():
 
     context.add(alarm)
 
-    context.after(minutes=25)
+    context.run_for(minutes=25)
 
     assert alarm.is_triggered()
