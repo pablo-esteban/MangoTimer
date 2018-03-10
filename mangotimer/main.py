@@ -12,8 +12,11 @@ class RecurrentAlarm(object):
     def is_triggered(self):
         return self._triggered
 
+    def switch_off(self):
+        self._triggered = False
+
     def notify(self, current_time):
-        if self._when >= current_time:
+        if self._when <= current_time:
             self._triggered = True
 
 
