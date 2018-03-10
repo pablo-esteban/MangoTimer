@@ -5,6 +5,8 @@ class RecurrentAlarm(object):
     def __init__(self):
         self._when = None
         self._triggered = False
+        self._snoozed = False
+        self._postpone_by = 0
 
     def set_every(self, minutes):
         self._when = minutes
@@ -14,9 +16,18 @@ class RecurrentAlarm(object):
 
     def switch_off(self):
         self._triggered = False
+        self._snoozed = False
+        self._postpone_by = 0
+
+    def snooze(self, minutes):
+        self._snoozed = True
+        self._postpone_by = minutes
 
     def notify(self, current_time):
-        if self._when <= current_time:
+        trigger_time = self._when
+        if self._snoozed:
+            trigger_time = self._when + self._postpone_by
+        if trigger_time <= current_time:
             self._triggered = True
 
 
