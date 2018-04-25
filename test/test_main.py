@@ -75,3 +75,6 @@ def test_should_not_trigger_until_next_period():
 
     context.run_for(minutes=1)
     assert not alarm.is_triggered()
+
+    context.run_for(minutes=4)
+    assert alarm.is_triggered()
