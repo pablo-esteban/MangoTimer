@@ -1,5 +1,5 @@
 
-from mangotimer.main import RecurrentAlarm, FakeTimeline
+from mangotimer.mango import RecurrentAlarm, FakeTimeline
 
 
 def test_should_trigger_alarm_after_set_time():
