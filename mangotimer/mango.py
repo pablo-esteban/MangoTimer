@@ -70,9 +70,7 @@ class RealTimeline(object):
 
     def run(self):
         while True:
-            now = datetime.datetime.now()
-            self._time_increment = now - self._current_time
-            self._current_time = now
+            self._current_time = datetime.datetime.now()
             self.monitor()
 
     def monitor(self):
