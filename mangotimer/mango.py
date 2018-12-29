@@ -3,8 +3,8 @@ import datetime
 
 class RecurrentAlarm(object):
 
-    def __init__(self):
-        self._every = None
+    def __init__(self, every):
+        self._every = every
         self._trigger_time = None
         self._triggered = False
         self._snoozed = False
@@ -70,8 +70,11 @@ class RealTimeline(object):
 
     def run(self):
         while True:
-            self._current_time = datetime.datetime.now()
-            self.monitor()
+            self.tick()
+
+    def tick(self):
+        self._current_time = datetime.datetime.now()
+        self.monitor()
 
     def monitor(self):
         for alarm in self._alarms:

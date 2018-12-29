@@ -1,12 +1,15 @@
+import pytest
 
 from mangotimer.mango import RecurrentAlarm, FakeTimeline
 
 
-def test_should_trigger_alarm_after_set_time():
-    alarm = RecurrentAlarm()
-    context = FakeTimeline()
+@pytest.fixture
+def context():
+    return FakeTimeline()
 
-    alarm.set_every(minutes=25)
+
+def test_should_trigger_alarm_after_set_time(context):
+    alarm = RecurrentAlarm(every=25)
 
     context.add(alarm)
 
@@ -19,11 +22,8 @@ def test_should_trigger_alarm_after_set_time():
     assert not alarm.is_triggered()
 
 
-def test_should_not_trigger_alarm_if_time_is_before_set_time():
-    alarm = RecurrentAlarm()
-    context = FakeTimeline()
-
-    alarm.set_every(minutes=25)
+def test_should_not_trigger_alarm_if_time_is_before_set_time(context):
+    alarm = RecurrentAlarm(every=25)
 
     context.add(alarm)
 
@@ -32,11 +32,9 @@ def test_should_not_trigger_alarm_if_time_is_before_set_time():
     assert not alarm.is_triggered()
 
 
-def test_should_snooze_alarm_for_some_time():
-    alarm = RecurrentAlarm()
-    context = FakeTimeline()
+def test_should_snooze_alarm_for_some_time(context):
+    alarm = RecurrentAlarm(every=25)
 
-    alarm.set_every(minutes=25)
     context.add(alarm)
 
     context.run_for(minutes=25)
@@ -48,11 +46,9 @@ def test_should_snooze_alarm_for_some_time():
     assert alarm.is_triggered()
 
 
-def test_should_still_be_triggered_if_not_switched_off():
-    alarm = RecurrentAlarm()
-    context = FakeTimeline()
+def test_should_still_be_triggered_if_not_switched_off(context):
+    alarm = RecurrentAlarm(every=5)
 
-    alarm.set_every(minutes=5)
     context.add(alarm)
     context.run_for(minutes=5)
     assert alarm.is_triggered()
@@ -62,11 +58,9 @@ def test_should_still_be_triggered_if_not_switched_off():
     assert alarm.is_triggered()
 
 
-def test_should_not_trigger_until_next_period():
-    alarm = RecurrentAlarm()
-    context = FakeTimeline()
+def test_should_not_trigger_until_next_period(context):
+    alarm = RecurrentAlarm(every=5)
 
-    alarm.set_every(minutes=5)
     context.add(alarm)
 
     context.run_for(minutes=5)
